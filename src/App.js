@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Form from "./Form";
+import Data from "./Data";
 // import { SecondUser, User } from "./User";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
                     Learn React YEAH!
                 </a>
+                <Data />
                 {/* <User name={name} age={age} clickMe={clickMe} />
                 <SecondUser /> */}
                 <Form />
