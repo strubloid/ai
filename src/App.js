@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { SecondUser, User } from "./User";
+import Form from "./Form";
+// import { SecondUser, User } from "./User";
 
 function App() {
     const name = "Strubloid 2";
@@ -20,8 +21,9 @@ function App() {
                 <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
                     Learn React YEAH!
                 </a>
-                <User name={name} age={age} clickMe={clickMe} />
-                <SecondUser />
+                {/* <User name={name} age={age} clickMe={clickMe} />
+                <SecondUser /> */}
+                <Form />
             </header>
         </div>
     );
