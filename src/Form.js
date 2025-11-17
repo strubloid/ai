@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './Form.css'
 
 function Form() {
     const [form, setForm] = useState({
@@ -120,7 +121,7 @@ function Form() {
             {result && (
                 <div>
                     <h3>Prediction Result:</h3>
-                    <div dangerouslySetInnerHTML={{ __html: result }}></div>
+                    <div className="result" dangerouslySetInnerHTML={{ __html: result }}></div>
                     {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
                 </div>
             )}
