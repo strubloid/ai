@@ -43,16 +43,20 @@ function Form() {
 
         try {
             // Fixed: changed https to http for localhost
-            let response = await fetch("http://127.0.0.1:5000/predict", {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+            let response = await fetch(`${apiUrl}/predict`, {
                 method: "POST",
                 body: form_data,
             });
-
+            
             // getting the json data from the response
-            // let data = await response.json(
+            let data = await response.json();
 
             // setting the result state
-            setResult(await response.text());
+            setResult(data);
+            // setResult(await response.text());
+
+
         } catch (err) {
             console.error("Error:", err);
             setError(err.message);
@@ -121,8 +125,7 @@ function Form() {
             {result && (
                 <div>
                     <h3>Prediction Result:</h3>
-                    <div className="result" dangerouslySetInnerHTML={{ __html: result }}></div>
-                    {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
+                    <div className="result">{result.message}</div>
                 </div>
             )}
         </div>
