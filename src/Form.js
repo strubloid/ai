@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 function Form() {
-
     const [form, setForm] = useState({
         pregnancies: "",
         glucose: "",
@@ -10,8 +9,8 @@ function Form() {
         insulin_level: "",
         bmi: "",
         diabetes_pedigree: "",
-        age: ""
-     });
+        age: "",
+    });
 
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
@@ -38,14 +37,14 @@ function Form() {
         console.log("Submitting form data...");
         // Log the form data entries to see what's being sent
         for (let pair of form_data.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
+            console.log(pair[0] + ": " + pair[1]);
         }
 
         try {
             // Fixed: changed https to http for localhost
-            let response = await fetch('http://127.0.0.1:5000/predict', {
+            let response = await fetch("http://127.0.0.1:5000/predict", {
                 method: "POST",
-                body: form_data
+                body: form_data,
             });
 
             // getting the json data from the response
@@ -61,46 +60,71 @@ function Form() {
         }
     };
 
+    // function to clear the prediction result
+    const handlerClear = () => {
+        // clearing the form state
+        setForm({
+            pregnancies: "",
+            glucose: "",
+            blood_presure: "",
+            skin_thickness: "",
+            insulin_level: "",
+            bmi: "",
+            diabetes_pedigree: "",
+            age: "",
+        });
+
+        // Clearing the result
+        setResult("");
+
+        // Clearing any existing errors
+        setError(null);
+    };
+
     const onChange = (e) => {
         // this will get the name and value of the input that triggered the change
         const name = e.target.name;
         const value = e.target.value;
 
         // this will update the form state
-        setForm({...form,[name]: value})
+        setForm({ ...form, [name]: value });
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-               <h4>Diabetes Prediction Model</h4>
-               <p>Example to Predict Probability of Diabetes</p>
-               <input type="number" name="pregnancies" onChange={onChange} value={form.pregnancies} placeholder="Number of Pregnancies" />
-               <input type="number" name="glucose" onChange={onChange} value={form.glucose} placeholder="Glucose level in Sugar" />
-               <input type="number" name="blood_presure" onChange={onChange} value={form.blood_presure} placeholder="Blood Presure" />
-               <input type="number" name="skin_thickness" onChange={onChange} value={form.skin_thickness} placeholder="Skin Thickness" />
-               <input type="number" name="insulin_level" onChange={onChange} value={form.insulin_level} placeholder="Insulin Level" />
-               <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" />
-               <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" />
-               <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" />
-               <button type="submit" disabled={loading}>{loading ? "Loading..." : "Submit Form"}</button>
+                <h4>Diabetes Prediction Model</h4>
+                <p>Example to Predict Probability of Diabetes</p>
+                <input type="number" name="pregnancies" onChange={onChange} value={form.pregnancies} placeholder="Number of Pregnancies" />
+                <input type="number" name="glucose" onChange={onChange} value={form.glucose} placeholder="Glucose level in Sugar" />
+                <input type="number" name="blood_presure" onChange={onChange} value={form.blood_presure} placeholder="Blood Presure" />
+                <input type="number" name="skin_thickness" onChange={onChange} value={form.skin_thickness} placeholder="Skin Thickness" />
+                <input type="number" name="insulin_level" onChange={onChange} value={form.insulin_level} placeholder="Insulin Level" />
+                <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" />
+                <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" />
+                <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" />
+                <button type="submit" disabled={loading}>
+                    {loading ? "Loading..." : "Submit Form"}
+                </button>
             </form>
 
             {error && (
-                <div style={{color: 'red'}}>
+                <div style={{ color: "red" }}>
                     <h3>Error:</h3>
                     <p>{error}</p>
                 </div>
             )}
 
+            {result && <span onClick={handlerClear}>Clear Prediction</span>}
+
             {result && (
                 <div>
                     <h3>Prediction Result:</h3>
-                    <div dangerouslySetInnerHTML={{__html:result}}></div>
+                    <div dangerouslySetInnerHTML={{ __html: result }}></div>
                     {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
                 </div>
             )}
         </div>
-     );
+    );
 }
 export default Form;
