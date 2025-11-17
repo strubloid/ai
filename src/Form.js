@@ -95,14 +95,14 @@ function Form() {
             <form onSubmit={handleSubmit}>
                 <h4>Diabetes Prediction Model</h4>
                 <p>Example to Predict Probability of Diabetes</p>
-                <input type="number" name="pregnancies" onChange={onChange} value={form.pregnancies} placeholder="Number of Pregnancies" />
-                <input type="number" name="glucose" onChange={onChange} value={form.glucose} placeholder="Glucose level in Sugar" />
-                <input type="number" name="blood_presure" onChange={onChange} value={form.blood_presure} placeholder="Blood Presure" />
-                <input type="number" name="skin_thickness" onChange={onChange} value={form.skin_thickness} placeholder="Skin Thickness" />
-                <input type="number" name="insulin_level" onChange={onChange} value={form.insulin_level} placeholder="Insulin Level" />
-                <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" />
-                <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" />
-                <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" />
+                <input type="number" name="pregnancies" onChange={onChange} value={form.pregnancies} placeholder="Number of Pregnancies" required />
+                <input type="number" name="glucose" onChange={onChange} value={form.glucose} placeholder="Glucose level in Sugar" required />
+                <input type="number" name="blood_presure" onChange={onChange} value={form.blood_presure} placeholder="Blood Presure" required />
+                <input type="number" name="skin_thickness" onChange={onChange} value={form.skin_thickness} placeholder="Skin Thickness" required />
+                <input type="number" name="insulin_level" onChange={onChange} value={form.insulin_level} placeholder="Insulin Level" required />
+                <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" required />
+                <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" required />
+                <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" required />
                 <button type="submit" disabled={loading}>
                     {loading ? "Loading..." : "Submit Form"}
                 </button>
