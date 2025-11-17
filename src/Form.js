@@ -90,11 +90,8 @@ function Form() {
             {result && (
                 <div>
                     <h3>Prediction Result:</h3>
+                    <div dangerouslySetInnerHTML={{__html:result}}></div>
                     {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
-
-                    <pre>
-                        <div dangerouslySetInnerHTML={{__html:result}}></div>
-                    </pre>
                 </div>
             )}
         </div>
