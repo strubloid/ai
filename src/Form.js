@@ -13,9 +13,10 @@ function Form() {
         age: ""
      });
 
-    const [result, setResult] = useState(null); // Add this to store API response
-    const [error, setError] = useState(null); // Add this to show errors
+    const [result, setResult] = useState(null);
+    const [error, setError] = useState(null);
 
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,6 +31,9 @@ function Form() {
         form_data.append("bmi", form.bmi);
         form_data.append("diabetes_pedigree", form.diabetes_pedigree);
         form_data.append("age", form.age);
+
+        // changing loading state
+        setLoading(true);
 
         console.log("Submitting form data...");
         // Log the form data entries to see what's being sent
@@ -52,6 +56,8 @@ function Form() {
         } catch (err) {
             console.error("Error:", err);
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,7 +83,7 @@ function Form() {
                <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" />
                <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" />
                <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" />
-               <button type="submit">Submit Form</button>
+               <button type="submit" disabled={loading}>{loading ? "Loading..." : "Submit Form"}</button>
             </form>
 
             {error && (
