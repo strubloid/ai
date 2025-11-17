@@ -3,19 +3,59 @@ import { useState } from "react";
 function Form() {
 
     const [form, setForm] = useState({
-        name: "",
-        email: ""
-    });
+        pregnancies: "",
+        glucose: "",
+        blood_presure: "",
+        skin_thickness: "",
+        insulin_level: "",
+        bmi: "",
+        diabetes_pedigree: "",
+        age: ""
+     });
 
-    const handleSubmit = (e) => {
+    const [result, setResult] = useState(null); // Add this to store API response
+    const [error, setError] = useState(null); // Add this to show errors
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted");
-        console.log(form);
+        setError(null); // Clear previous errors
+
+        const form_data = new FormData();
+        form_data.append("pregnancies", form.pregnancies);
+        form_data.append("glucose", form.glucose);
+        form_data.append("blood_presure", form.blood_presure);
+        form_data.append("skin_thickness", form.skin_thickness);
+        form_data.append("insulin_level", form.insulin_level);
+        form_data.append("bmi", form.bmi);
+        form_data.append("diabetes_pedigree", form.diabetes_pedigree);
+        form_data.append("age", form.age);
+
+        console.log("Submitting form data...");
+        // Log the form data entries to see what's being sent
+        for (let pair of form_data.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        try {
+            // Fixed: changed https to http for localhost
+            let response = await fetch('http://127.0.0.1:5000/predict', {
+                method: "POST",
+                body: form_data
+            });
+
+            // getting the json data from the response
+            // let data = await response.json(
+
+            // setting the result state
+            setResult(await response.text());
+        } catch (err) {
+            console.error("Error:", err);
+            setError(err.message);
+        }
     };
 
     const onChange = (e) => {
-        e.preventDefault();
-
         // this will get the name and value of the input that triggered the change
         const name = e.target.name;
         const value = e.target.value;
@@ -25,11 +65,39 @@ function Form() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="name" onChange={onChange} placeholder="Name (e.g. Rafael)" />
-            <input type="text" name="email" onChange={onChange} placeholder="Email (e.g. rafael@example.com)" />
-            <button type="submit">Submit</button>
-        </form>
-    );
+        <div>
+            <form onSubmit={handleSubmit}>
+               <h4>Diabetes Prediction Model</h4>
+               <p>Example to Predict Probability of Diabetes</p>
+               <input type="number" name="pregnancies" onChange={onChange} value={form.pregnancies} placeholder="Number of Pregnancies" />
+               <input type="number" name="glucose" onChange={onChange} value={form.glucose} placeholder="Glucose level in Sugar" />
+               <input type="number" name="blood_presure" onChange={onChange} value={form.blood_presure} placeholder="Blood Presure" />
+               <input type="number" name="skin_thickness" onChange={onChange} value={form.skin_thickness} placeholder="Skin Thickness" />
+               <input type="number" name="insulin_level" onChange={onChange} value={form.insulin_level} placeholder="Insulin Level" />
+               <input type="number" name="bmi" onChange={onChange} value={form.bmi} placeholder="Body Mass Index (BMI)" />
+               <input type="number" name="diabetes_pedigree" onChange={onChange} value={form.diabetes_pedigree} placeholder="Diabetes Pedigree Function" />
+               <input type="number" name="age" onChange={onChange} value={form.age} placeholder="Age" />
+               <button type="submit">Submit Form</button>
+            </form>
+
+            {error && (
+                <div style={{color: 'red'}}>
+                    <h3>Error:</h3>
+                    <p>{error}</p>
+                </div>
+            )}
+
+            {result && (
+                <div>
+                    <h3>Prediction Result:</h3>
+                    {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
+
+                    <pre>
+                        <div dangerouslySetInnerHTML={{__html:result}}></div>
+                    </pre>
+                </div>
+            )}
+        </div>
+     );
 }
 export default Form;

@@ -17,7 +17,7 @@ function Data() {
         let data = await response.json();
 
         // logging the data to the console
-        console.log(data);
+        // console.log(data);
 
         // setting the user state to the first result from the data
         setUser(data.results[0]);
