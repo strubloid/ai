@@ -96,7 +96,7 @@ function Form() {
     };
 
     return (
-        <div>
+        <>
             <form onSubmit={handleSubmit}>
                 <h4>Diabetes Prediction Model</h4>
                 <p>Example to Predict Probability of Diabetes</p>
@@ -111,24 +111,27 @@ function Form() {
                 <button type="submit" disabled={loading}>
                     {loading ? "Loading..." : "Submit Form"}
                 </button>
+                {result && <span onClick={handlerClear}>Clear Prediction</span>}
             </form>
+            <div>
+                {error && (
+                    <div style={{ color: "red" }}>
+                        <h3>Error:</h3>
+                        <p>{error}</p>
+                    </div>
+                )}
 
-            {error && (
-                <div style={{ color: "red" }}>
-                    <h3>Error:</h3>
-                    <p>{error}</p>
-                </div>
-            )}
+                
 
-            {result && <span onClick={handlerClear}>Clear Prediction</span>}
-
-            {result && (
-                <div>
-                    <h3>Prediction Result:</h3>
-                    <div className="result">{result.message}</div>
-                </div>
-            )}
-        </div>
+                {result && (
+                    <div>
+                        <h3>Prediction Result:</h3>
+                        <div className="result">{result.message}</div>
+                    </div>
+                )}
+            </div>
+        </>
+        
     );
 }
 export default Form;
